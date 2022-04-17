@@ -14,12 +14,19 @@ class DynamicStorage {
     private Adventure[] TempStorage;
     private int currentSize;
 
+    /**
+     * Construction
+     * Initialize some parameters according to DynamicStorage.TrafficBaseHour parameter
+     */
     DynamicStorage() {
         this.trafficBaseHourCreationLimit = (int)(this.trafficBaseHour * 0.9f);
         this.trafficBaseHourReductionLimit = (int)(this.trafficBaseHour * 1.9f);
         this.currentSize = this.trafficBaseHour;
     }
 
+    /**
+     * Increase the size of the stored data according to the TrafficBaseHour parameter
+     */
     void increaseSize() {
         this.TempStorage = new Adventure[this.currentSize];
         this.TempStorage = this.Storage;
@@ -31,6 +38,9 @@ class DynamicStorage {
         this.TempStorage = null;
     }
 
+    /**
+     * Decrease the size of the stored data according to the TrafficBaseHour parameter
+     */
     void decreaseSize() {
         this.TempStorage = new Adventure[this.currentSize];
         this.TempStorage = this.Storage;
@@ -42,6 +52,11 @@ class DynamicStorage {
         this.TempStorage = null;
     }
 
+    /**
+     * Add a new adventure to the storage
+     *      In case the storage has empty space less than 90% of TrafficBaseHour parameter ==> increase its size
+     * @param adventure adventure to add
+     */
     void add(Adventure adventure) {
         int numberEmpty = currentSize;
         for (Adventure adv: this.Storage) {
@@ -57,6 +72,11 @@ class DynamicStorage {
         }
     }
 
+    /**
+     * remove an adventure from the storage
+     *      In case the storage has empty space more than 190% of TrafficBaseHour parameter ==> decrease its size
+     * @param adventure adventure to add
+     */
     void remove(Long id) {
         int numberEmpty = 0;
         for (Adventure adv: this.Storage) {
@@ -72,6 +92,11 @@ class DynamicStorage {
         }
     }
 
+    /**
+     * return the adventure based on its id
+     * @param id adventure's id
+     * @return the matching adventure
+     */
     Adventure getAdventure(Long id) {
         for (Adventure adventure: this.Storage) {
             if (adventure == null) continue;
