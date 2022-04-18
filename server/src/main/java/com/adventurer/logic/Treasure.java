@@ -32,6 +32,8 @@ public class Treasure extends Element{
      */
     @Override
     String getState() {
+        if (treasureAmount == 0) return "";
+
         return "T - " + this.position[0] + " - " + this.position[1] + " - " + treasureAmount;
     }
     

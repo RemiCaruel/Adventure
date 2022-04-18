@@ -1,8 +1,12 @@
 package com.adventurer.logic;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
@@ -10,10 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.util.Map;
+
 @RestController
 public class AdventureController {
 
-    DynamicStorage storage;
+    DynamicStorage storage = new DynamicStorage();
 
     /**
      * Initialize the adventure with its commands
@@ -21,9 +27,11 @@ public class AdventureController {
      * @param commands adventure's commands list
      * @return the id of the adventure to the client
      */
-    @GetMapping("/init")
-    public Long init(@RequestBody String name, @RequestBody String commands) {
-        Adventure newAdventure = new Adventure(name, commands);
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/api/init")
+    public Long init(@RequestBody Map<String, Object> json) {
+        storage.remove(Long.valueOf((String)json.get("previous_id")));
+        Adventure newAdventure = new Adventure((String)json.get("name"), ((String)json.get("commands")).replace(";", "\n"));
         storage.add(newAdventure);
         return newAdventure.getId();
     }
@@ -34,12 +42,14 @@ public class AdventureController {
      * @return the adventure predefined commands
      * @throws IOException In case the file cannot be read
      */
-    //@CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getCode")
-    public String[] getCode(@RequestBody String name) throws IOException {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/api/getCode")
+    public String getCode(@RequestParam String name) throws IOException {
         String fullPath = "predefined_adventures/" + name + ".txt";
         String cmds = readFromInputStream(fullPath);
-        return (cmds + "\n" + init(name, cmds)).split("\n");
+        Adventure newAdventure = new Adventure(name, cmds);
+        storage.add(newAdventure);
+        return "{\"cmds\":" + toJson(cmds.split("\n")) + ",\"id\":\"" + newAdventure.getId() + "\"}";
     }
 
     /**
@@ -47,11 +57,12 @@ public class AdventureController {
      * @param id Adventure's id
      * @return the current adventure state according to client specs
      */
-    @GetMapping("/step")
-    public String step(@RequestBody Long id) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/api/step")
+    public String[] step(@RequestParam Long id) {
         Adventure cAdventure = storage.getAdventure(id);
         cAdventure.step();
-        return cAdventure.getState();
+        return cAdventure.getState().split("\n");
     }
 
     /**
@@ -72,5 +83,14 @@ public class AdventureController {
                 }
             }
         return resultStringBuilder.toString();
+    }
+
+    private String toJson(String[] rows) {
+        String ret = "[";
+        for (int i = 0; i < rows.length - 1; i++) {
+            ret += "\"" + rows[i] + "\",";
+        }
+        ret += "\"" + rows[rows.length-1] + "\"]";
+        return ret;
     }
 }

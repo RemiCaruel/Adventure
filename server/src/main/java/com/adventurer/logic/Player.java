@@ -26,7 +26,6 @@ public class Player extends Element {
      * @param map the current environment (Map) of the player
      */
     void makeMove(String Movement, Map map) {
-        System.out.println(Movement);
         switch (Movement) {
             case "A": // forward
                 int[] move = this.getMoveDirection();

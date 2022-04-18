@@ -1,9 +1,9 @@
 package com.adventurer.logic;
 
+import java.util.Arrays;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.SourceType;
 
 public class Map {
 
@@ -47,12 +47,11 @@ public class Map {
      * @return boolean indicating if the move is possible
      */
     boolean isTileWalkable(int[] position) {
-        System.out.println(position[0] + ", " + position[1]);
         boolean isWalkable = true;
         if (position[0] > sizeX || position[1] > sizeY || position[0] < 0 || position[1] < 0) return false;
         for (Element element: elements) {
             if (element != null) {
-                if (position == element.position) {
+                if (Arrays.equals(position, element.position)) {
                     isWalkable = isWalkable && element.isWalkable;
                 }
             }
@@ -68,7 +67,7 @@ public class Map {
     Treasure searchForTreasure(int[] position) {
         for (Element element: elements) {
             if (element != null) {
-                if (element.getClass().getName().equals("com.adventurer.logic.Treasure") && element.position == position ) {
+                if (element.getClass().getName().equals("com.adventurer.logic.Treasure") && Arrays.equals(position, element.position) ) {
                     return (Treasure)element;
                 }
             }
@@ -84,8 +83,8 @@ public class Map {
      * @param layer       the tile layer for printing purposes
      */
     void AddElementAt(String identifiant, int[] position, boolean isWalkable, int layer) {
-        if (position[0] > sizeX && position[1] > sizeY) return;
-
+        if (position[0] > sizeX || position[1] > sizeY) return;
+        
         this.elements[lastElementPos] = new Element(identifiant, position, isWalkable, layer);
         lastElementPos += 1;
     }
@@ -96,9 +95,9 @@ public class Map {
      * @param treasureAmount the amount of treasures it has
      */
     void AddTreasureAt(int[] position, int treasureAmount) {
-        if (position[0] > sizeX && position[1] > sizeY) return;
+        if (position[0] > sizeX || position[1] > sizeY) return;
         if (treasureAmount < 0) return;
-
+        
         this.elements[lastElementPos] = new Treasure(position, treasureAmount);
         lastElementPos += 1;
     }
@@ -110,8 +109,9 @@ public class Map {
      * @param orientation the current orientation of the player
      */
     void AddPlayerAt(int[] position, String name, String orientation) {
-        if (position[0] > sizeX && position[1] > sizeY) return;
-
+        if (position[0] > sizeX || position[1] > sizeY) return;
+        if (!this.isTileWalkable(position)) return;
+        
         this.elements[lastElementPos] = new Player(name, position, orientation);
         lastElementPos += 1;
     }

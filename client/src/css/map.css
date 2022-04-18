@@ -1,0 +1,35 @@
+.cell {
+    width: 90px;
+    height: 90px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.cell > img {
+    position: absolute;
+    transform: translate(0, -5px);
+}
+
+#MapViewerContainer {
+    display: flex;
+    flex-direction: row;
+    left: 5;
+    top: 5;
+    bottom: 5;
+    right: 5;
+    justify-content: center;
+    align-items: center;
+}
+
+.info {
+    position: relative;
+    background-color: white;
+    top: 35px;
+}
+
+.infoName {
+    transform: translate(0, -5px);
+}

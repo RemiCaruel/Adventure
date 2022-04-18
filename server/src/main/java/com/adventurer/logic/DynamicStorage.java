@@ -6,8 +6,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 class DynamicStorage {
 
-    @Value( "${DynamicStorage.TrafficBaseHour}" )
-    private int trafficBaseHour;
+    @Value( "${DynamicStorage.trafficBaseHour}" )
+    private int trafficBaseHour = 100;
     private int trafficBaseHourCreationLimit;
     private int trafficBaseHourReductionLimit;
     private Adventure[] Storage;
@@ -19,9 +19,10 @@ class DynamicStorage {
      * Initialize some parameters according to DynamicStorage.TrafficBaseHour parameter
      */
     DynamicStorage() {
-        this.trafficBaseHourCreationLimit = (int)(this.trafficBaseHour * 0.9f);
+        this.trafficBaseHourCreationLimit = (int)(this.trafficBaseHour * 0.1f);
         this.trafficBaseHourReductionLimit = (int)(this.trafficBaseHour * 1.9f);
         this.currentSize = this.trafficBaseHour;
+        this.Storage = new Adventure[this.trafficBaseHour];
     }
 
     /**
@@ -58,16 +59,19 @@ class DynamicStorage {
      * @param adventure adventure to add
      */
     void add(Adventure adventure) {
-        int numberEmpty = currentSize;
-        for (Adventure adv: this.Storage) {
-            if (adv == null) {
-                adv = adventure;
-            } else {
-                numberEmpty -= 1;
+        int numberEmpty = 0;
+        boolean stored = false;
+        for (int i = 0; i < this.Storage.length; i++) {
+            if (this.Storage[i] == null && !stored) {
+                this.Storage[i] = adventure;
+                stored = true;
+            } else if (this.Storage[i] == null) {
+                numberEmpty += 1;
             }
         }
 
         if (numberEmpty < this.trafficBaseHourCreationLimit) {
+            System.out.println("Increasing Storage Size");
             this.increaseSize();
         }
     }
@@ -88,6 +92,7 @@ class DynamicStorage {
         }
 
         if (numberEmpty > this.trafficBaseHourReductionLimit) {
+            System.out.println("Decreasing Storage Size");
             this.decreaseSize();
         }
     }

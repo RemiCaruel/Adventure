@@ -1,0 +1,19 @@
+.header{
+    position: fixed;
+    width: 100vw;
+    height: 70px;
+    box-shadow: 0 0 5px #DDD;
+}
+
+.headerLogo {
+    height: 70px;
+    border: none;
+    font-weight: bold;
+    background-color: #FFF;
+}
+
+.headerLogo:hover {
+    background-color: #DDD;
+    border: none;
+    color: #333;
+}

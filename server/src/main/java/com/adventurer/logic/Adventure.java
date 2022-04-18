@@ -12,7 +12,8 @@ public class Adventure {
     static final Pattern regExPlayer   = Pattern.compile("^(?!(#)+)(A[ ]*-[ ]*([a-zA-Z]+)[ ]*-[ ]*([0-9]+)[ ]*-[ ]*([0-9]+)[ ]*-[ ]*([SOEN])[ ]*-[ ]*([AGD]+)[ ]*)$");
     static final Pattern regExPlayerCreation = Pattern.compile("^(?!(#)+)(A-([a-zA-Z]+)-([0-9]+)-([0-9]+)-([SOEN])[ ]*)$");
     static final Pattern regExPlayerMoving   = Pattern.compile("^(?!(#)+)(A-([a-zA-Z]+)-([AGD])[ ]*)$");
-    
+    static Long LastId = (long) 1;
+
     private Long id;
     private String name;
     private String[] commands;
@@ -27,6 +28,8 @@ public class Adventure {
     public Adventure(String name, String commands) {
         this.commands = getCommandListDevelopped(commands);
         this.name = name;
+        this.id = LastId;
+        Adventure.LastId += 1;
     }
 
     /**
@@ -51,7 +54,7 @@ public class Adventure {
         /**
          * Creation of a mountain
          */
-        if (regExMountain.matcher(cCmd).matches()) {
+        if (regExMountain.matcher(cCmd).matches() && this.map != null) {
             matcher = regExMountain.matcher(cCmd);
             matcher.find();
             this.map.AddElementAt("M", new int[]{Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(4))}, false, 2);
@@ -60,7 +63,7 @@ public class Adventure {
         /**
          * Creation of a Treasure
          */
-        if (regExTreasure.matcher(cCmd).matches()) {
+        if (regExTreasure.matcher(cCmd).matches() && this.map != null) {
             matcher = regExTreasure.matcher(cCmd);
             matcher.find();
             this.map.AddTreasureAt(new int[]{Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(4))}, Integer.parseInt(matcher.group(5)));
@@ -69,7 +72,7 @@ public class Adventure {
         /**
          * Creation of a player
          */
-        if (regExPlayerCreation.matcher(cCmd).matches()) {
+        if (regExPlayerCreation.matcher(cCmd).matches() && this.map != null) {
             matcher = regExPlayerCreation.matcher(cCmd);
             matcher.find();
             this.map.AddPlayerAt(new int[]{Integer.parseInt(matcher.group(4)), Integer.parseInt(matcher.group(5))}, matcher.group(3), matcher.group(6));
@@ -78,7 +81,7 @@ public class Adventure {
         /**
          * Moving a player
          */
-        if (regExPlayerMoving.matcher(cCmd).matches()) {
+        if (regExPlayerMoving.matcher(cCmd).matches() && this.map != null) {
             matcher = regExPlayerMoving.matcher(cCmd);
             matcher.find();
             this.map.MovePlayer(matcher.group(3), matcher.group(4));

@@ -1,0 +1,20 @@
+.content {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 70px;
+    bottom: 0;
+}
+
+.hiden {
+    display: none;
+}
+
+.holder {
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+    align-items: center;
+    margin: 5px;
+    height: 52px;
+}
