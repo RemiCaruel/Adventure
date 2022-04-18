@@ -1,6 +1,10 @@
+:root {
+    --coefficient : 1;
+}
+
 .cell {
-    width: 90px;
-    height: 90px;
+    width: calc(90px / var(--coefficient));
+    height: calc(90px / var(--coefficient));
     border: 1px solid black;
     display: flex;
     align-items: center;
@@ -10,7 +14,9 @@
 
 .cell > img {
     position: absolute;
-    transform: translate(0, -5px);
+    transform: translate(0, -calc(5px / var(--coefficient)));
+    width: calc(64px / var(--coefficient));
+    height: calc(64px / var(--coefficient));
 }
 
 #MapViewerContainer {
@@ -24,12 +30,20 @@
     align-items: center;
 }
 
+.MapHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .info {
     position: relative;
     background-color: white;
-    top: 35px;
+    top: calc(35px / var(--coefficient));
+    font-size: calc(13px / var(--coefficient));
 }
 
 .infoName {
-    transform: translate(0, -5px);
+    transform: translate(0, -calc(5px / var(--coefficient)));
 }
