@@ -15,19 +15,20 @@ function drawMap(cmds) {
     for (let i = 1; i < cmds.length; i++) {
         if (regExMountain.test(cmds[i])) {
             let elementInfo = regExMountain.exec(cmds[i]);
-            document.getElementsByClassName("col")[elementInfo[1]].childNodes[elementInfo[2]].innerHTML = 
+            document.getElementsByClassName("col")[elementInfo[1]].childNodes[parseInt(elementInfo[2]) + 1].innerHTML = 
                 ReactDOMServer.renderToString(<Cell key={newId()} type="M" imgName="mountain.png"/>);
             continue;
         }
         if (regExTreasure.test(cmds[i])) {
             let elementInfo = regExTreasure.exec(cmds[i]);
-            document.getElementsByClassName("col")[elementInfo[1]].childNodes[elementInfo[2]].innerHTML = 
+            document.getElementsByClassName("col")[elementInfo[1]].childNodes[parseInt(elementInfo[2]) + 1].innerHTML = 
                 ReactDOMServer.renderToString(<Cell key={newId()} type="T" imgName="treasure.png" quantity={elementInfo[3]}/>);
             continue;
         }
         if (regExPlayer.test(cmds[i])) {
             let elementInfo = regExPlayer.exec(cmds[i]);
-            document.getElementsByClassName("col")[elementInfo[2]].childNodes[elementInfo[3]].innerHTML = 
+            console.log(elementInfo);
+            document.getElementsByClassName("col")[elementInfo[2]].childNodes[parseInt(elementInfo[3]) + 1].innerHTML = 
                 ReactDOMServer.renderToString(<Cell key={newId()} type="A" imgName="avatar.png" name={elementInfo[1]}/>);
             continue;
         }
