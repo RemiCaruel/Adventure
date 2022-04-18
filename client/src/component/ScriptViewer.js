@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { drawMap } from "./MapViewer";
-import ReactDOMServer from 'react-dom/server';
 
 let timeOutHolder;
 

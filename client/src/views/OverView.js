@@ -1,16 +1,10 @@
 import React from "react";
 
-import France from "../component/temp/France";
-import Arabia from "../component/temp/Arabia";
-import Error_ from "../component/temp/Error";
-import Arena from "../component/temp/Arena";
 import { ActionButton } from "../component/Button";
-import MapViewer from "../component/MapViewer";
 import ScriptViewer from "../component/ScriptViewer";
 import {drawMap} from "../component/MapViewer"
 
 let simulationRunner;
-let currentAdvId = 0;
 
 function startSimulation(){
     simulationRunner = window.setInterval(stepSimulation, 500);
