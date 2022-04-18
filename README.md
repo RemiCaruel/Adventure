@@ -30,6 +30,8 @@
                                                                               Oriented at "Orientation" (Can be S (South), N (North), O (West), E (East) but only one capital letter)
                                                                               With a moving sequence "MovingSequence" (Can be Multiple letter as A (Forward), G (turn left), D (turn right))
 
+    In case the command is misstyped, it will be underlined in red.
+
     If you edited the code, you need to click on the "load" button.
     Then you can press the "Step" button that will execute the next command of the code.
     You can also click on Play to read the code continuously. 
