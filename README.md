@@ -2,6 +2,23 @@
  
     Carbon IT project
 
+## How to install
+
+    You can get the code from git.
+    Go to client folder and run this command :
+        npm install
+    
+    Go to server folder and run this command :
+        mvn clean install
+
+    once this is done run this command :
+        mvnw spring-boot:run
+
+    Then returns to client folder and run this command :
+        npm start
+
+    The page should appear on the screen.
+
 ## How to use it
 
 ### Home
@@ -30,7 +47,7 @@
                                                                               Oriented at "Orientation" (Can be S (South), N (North), O (West), E (East) but only one capital letter)
                                                                               With a moving sequence "MovingSequence" (Can be Multiple letter as A (Forward), G (turn left), D (turn right))
 
-    In case the command is misstyped, it will be underlined in red.
+    In case the command is misstyped, it will be underlined in red (2second delay).
 
     If you edited the code, you need to click on the "load" button.
     Then you can press the "Step" button that will execute the next command of the code.
