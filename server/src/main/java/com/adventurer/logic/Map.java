@@ -35,6 +35,7 @@ public class Map {
         String state = "C - " + sizeX + " - " + sizeY + "\n";
         for (Element element : elements) {
             if (element ==  null) continue;
+            if (element.getState() == "") continue;
             state += element.getState() + "\n";
         }
         return state;

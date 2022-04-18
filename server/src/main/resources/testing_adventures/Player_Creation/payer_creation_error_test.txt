@@ -1,0 +1,6 @@
+C - 3 - 3
+A - Tester_KILLER_08 - -1 - 1 - S - AGAGA
+A - Tester - -1 - 1 - S - AGAGA
+A - Tester - 1 - -1 - S - AGAGA
+A - Tester - 1 - 1 - T - AGAGA
+A - Tester - 1 - 1 - S - AGAGAX
