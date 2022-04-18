@@ -1,0 +1,8 @@
+C - 9 - 5 - 9
+A - TESTER - LOST - IN - MAP
+R - 9 - 9
+B - 3 - 2 - 1 - BOOM
+O - ! 5216 - 6596
+N - null - exit()
+I *- r
+T - Testing - 10 / 10

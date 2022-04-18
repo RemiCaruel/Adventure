@@ -95,6 +95,7 @@ public class Adventure {
      * @return the current state of the map
      */
     public String getState() {
+        if (map == null) return "";
         return map.getState();
     }
 
