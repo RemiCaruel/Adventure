@@ -45,7 +45,7 @@ function reloadSimulation(){
             method:"POST",
             mode: "cors",
             headers:myHeaders,
-            body:JSON.stringify({"name":"CustomAdv", "commands":document.getElementsByTagName("textarea")[0].value.replace(/\n/g, ";"), "previous_id": localStorage.getItem("currentAdvId")})
+            body:JSON.stringify({"name":"CustomAdv", "commands":document.getElementsByClassName("textArea")[0].innerHTML.replace(/<\/div><div>/g, ";").replace(/<[\/]?[ a-zA-Z\"=]*>/g, ""), "previous_id": localStorage.getItem("currentAdvId")})
         }
     )
     .then(response => response.json())

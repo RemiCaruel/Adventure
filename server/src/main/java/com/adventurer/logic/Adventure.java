@@ -115,7 +115,7 @@ public class Adventure {
      */
     public String[] getCommandListDevelopped(String cmd) {
         String ret = "";
-        for (String command : cmd.split("\n")) {
+        for (String command : cmd.split(";")) {
             
             // Comment => does nothing
             if (regExComment.matcher(command).matches()) continue;

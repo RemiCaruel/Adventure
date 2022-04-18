@@ -31,7 +31,7 @@ public class AdventureController {
     @PostMapping("/api/init")
     public Long init(@RequestBody Map<String, Object> json) {
         storage.remove(Long.valueOf((String)json.get("previous_id")));
-        Adventure newAdventure = new Adventure((String)json.get("name"), ((String)json.get("commands")).replace(";", "\n"));
+        Adventure newAdventure = new Adventure((String)json.get("name"), ((String)json.get("commands")));
         storage.add(newAdventure);
         return newAdventure.getId();
     }
@@ -47,7 +47,7 @@ public class AdventureController {
     public String getCode(@RequestParam String name) throws IOException {
         String fullPath = "predefined_adventures/" + name + ".txt";
         String cmds = readFromInputStream(fullPath);
-        Adventure newAdventure = new Adventure(name, cmds);
+        Adventure newAdventure = new Adventure(name, cmds.replace("\n", ";"));
         storage.add(newAdventure);
         return "{\"cmds\":" + toJson(cmds.split("\n")) + ",\"id\":\"" + newAdventure.getId() + "\"}";
     }

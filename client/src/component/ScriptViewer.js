@@ -24,16 +24,16 @@ function getCode() {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem("currentAdvId", data["id"])
-        document.getElementsByClassName("textArea")[0].innerHTML = ReactDOMServer.renderToString(<pre>{data["cmds"].join("\n")}</pre>);
+        document.getElementsByClassName("textArea")[0].innerHTML = "<div>" + data["cmds"].join("</div><div>") + "</div>";
         textareaChanged();
     });
 }
 
 function textareaChanged() {
-    try {clearTimeout(timeOutHolder);console.log("TimeOutCleared!")}catch{console.log("No Timeout to clear")}
+    try {clearTimeout(timeOutHolder)}catch{console.log("No Timeout to clear")}
 
     document.getElementById("rowsIds").innerHTML = ""
-    for (let i = 1; i <= document.getElementsByTagName("pre")[0].innerHTML.replace(/(<br>)$/, "").replace(/<br>/g, "\n").split("\n").length; i++) {
+    for (let i = 1; i <= document.getElementsByClassName("textArea")[0].innerHTML.replace(/<\/div><div>/g, ";").replace(/<[\/]?[ a-zA-Z\"=]*>/g, "").split(";").length; i++) {
         document.getElementById("rowsIds").innerHTML += "<span>" + (i) + "</span>";
     }
 
@@ -41,8 +41,10 @@ function textareaChanged() {
 }
 
 function highlight() {
-    let content = document.getElementsByTagName("pre")[0].innerHTML.replace(/<br>/g, "\n").replace(/<[\/]?[ a-zA-Z\"=]*>/g, "").split("\n");
+    console.log(document.getElementsByClassName("textArea")[0].innerHTML.replace(/<\/div><div>/g, ";"));
+    let content = document.getElementsByClassName("textArea")[0].innerHTML.replace(/<\/div><div>/g, ";").replace(/<[\/]?[ a-zA-Z\"=]*>/g, "").split(";");
     let ret = [];
+    console.log(content);
     for (let i = 0; i < content.length; i++) {
         if (regExComment.test(content[i])){
             ret.push("<span class=\"codeComment\">" + content[i] + "</span>");
@@ -66,7 +68,7 @@ function highlight() {
         }
         ret.push("<span class=\"codeError\">" + content[i] + "</span>")
     }
-    document.getElementsByTagName("pre")[0].innerHTML = ret.join("<br>");
+    document.getElementsByClassName("textArea")[0].innerHTML = "<div>" + ret.join("</div><div>") + "</div>";
 
 }
 
@@ -75,15 +77,13 @@ class ScriptViewer extends Component {
     componentDidMount(){
         console.log("I am mounted!")
         getCode();
-        document.getElementsByClassName("textArea")[0].addEventListener("keyup", inputEvt => {
-            textareaChanged()
-        }, false);
+        document.getElementsByClassName("textArea")[0].addEventListener("keyup", textareaChanged, false);
     }
 
     render(){
         return <div className="box codeContainer code">
             <div className="rowsIds code" id="rowsIds"></div>
-            <div className="textArea" contentEditable="true" onChange={textareaChanged} onLoad={textareaChanged}></div>
+            <div className="textArea" contentEditable="true"></div>
         </div>;
     }
 }
